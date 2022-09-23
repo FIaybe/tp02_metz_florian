@@ -1,8 +1,27 @@
-const express = require('express');
-const path = require('path');
+const
+	express = require('express'),
+	bodyParser = require('body-parser');
+	cors = require('cors');
+
 const app = express();
-app.use(express.static(__dirname + '/dist/wep-app'));
-app.get('/*', function(req,res) {
-    res.sendFile(path.join(__dirname+'/dist/wep-app/index.html'));
+
+app.use(cors());
+app.use(bodyParser.json());
+
+// Enregistrement des routes
+require('./routes')(app);
+
+// Enregistrement du middleware de gestion d'erreurs
+app.use((err, req, res, next) => {
+	if (err.status === undefined) {
+		return res.status(500).send(err.message);
+	} else {
+		return res.status(err.status).send(err.message);
+	}
 });
-app.listen(process.env.PORT || 8080);
+
+const port = process.env.PORT || 3000;
+// Lancement du serveur
+const server = app.listen(port, () => {
+	console.log('Server successfully started on port ' + port);
+});
