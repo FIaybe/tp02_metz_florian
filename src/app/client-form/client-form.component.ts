@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Client } from 'src/core/Client';
 
 @Component({
@@ -6,10 +6,8 @@ import { Client } from 'src/core/Client';
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.scss']
 })
-export class ClientFormComponent implements OnInit {
-  ngOnInit(): void {
-  }
-
+export class ClientFormComponent {
+  display: boolean = false;
   client: Client;
   name: string = '';
   firstName: string = '';
@@ -24,9 +22,6 @@ export class ClientFormComponent implements OnInit {
   password: string = '';
   passwordValidation: string = '';
 
-
-
-
   onSubmit() {
     this.client = new Client(
       this.name, this.firstName, this.address,
@@ -34,7 +29,12 @@ export class ClientFormComponent implements OnInit {
       this.phone, this.email, this.gender,
       this.login, this.password, this.passwordValidation);
 
-    console.log(this.client);
+    this.changedisplay();
+
+  }
+
+  changedisplay() {
+    this.display = !this.display;
   }
 
 }
